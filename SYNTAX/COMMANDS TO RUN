@@ -1,0 +1,20 @@
+flex first.l
+
+gcc lex.yy.c -lfl
+
+./a.out
+
+
+
+%{
+
+// DECLARATION SECTION (OPTIONAL)
+%}
+
+%%
+
+// RULES SECTION (MUST)
+
+%%
+
+//CODE SECTION (OPTIONAL)
