@@ -1,0 +1,26 @@
+%{
+#include <stdio.h>
+
+int lines = 0;
+int spaces = 0;
+int tabs = 0;
+int others = 0;
+%}
+
+%%
+
+\n          { lines++; }
+" "         { spaces++; }
+"\t"        { tabs++; }
+.           { others++; }
+
+%%
+
+int main() {
+    yylex();
+    printf("Lines: %d\n", lines);
+    printf("Spaces: %d\n", spaces);
+    printf("Tabs: %d\n", tabs);
+    printf("Other Characters: %d\n", others);
+    return 0;
+}
