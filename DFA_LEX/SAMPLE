@@ -1,0 +1,59 @@
+%s A B C D E F G ACCEPT REJECTED INVALID
+
+%%
+<INITIAL>a BEGIN A;
+<INITIAL>b BEGIN INITIAL;
+<INITIAL>[^ab\n] BEGIN INVALID; 
+<INITIAL>\n printf("REJECTED: Empty input\n"); BEGIN INITIAL;
+
+<A>a BEGIN D;
+<A>b BEGIN B;
+<A>[^ab\n] BEGIN INVALID; 
+<A>\n {printf("REJECT\n");} BEGIN REJECTED;
+
+<B>a BEGIN E;
+<B>b BEGIN C;
+<B>[^ab\n] BEGIN INVALID; 
+<B>\n {printf("REJECT\n");} BEGIN REJECTED;
+
+<C>a BEGIN A;
+<C>b BEGIN INITIAL;
+<C>[^ab\n] BEGIN INVALID;
+<C>\n printf("ACCEPTED\n"); BEGIN ACCEPT;
+
+<D>a BEGIN G;
+<D>b BEGIN F;
+<D>[^ab\n] BEGIN INVALID;
+<D>\n {printf("REJECT\n");} BEGIN REJECTED;
+
+<E>a BEGIN D;
+<E>b BEGIN B;
+<E>[^ab\n] BEGIN INVALID;
+<E>\n printf("ACCEPTED\n"); BEGIN ACCEPT;
+
+<F>a BEGIN E;
+<F>b BEGIN C;
+<F>[^ab\n] BEGIN INVALID;
+<F>\n printf("ACCEPTED\n"); BEGIN ACCEPT;
+
+<G>a BEGIN G;
+<G>b BEGIN F;
+<G>[^ab\n] BEGIN INVALID;
+<G>\n printf("ACCEPTED\n"); BEGIN ACCEPT;
+
+<ACCEPT>\n printf("ACCEPTED\n"); BEGIN INITIAL;
+<ACCEPT>[^ab\n] BEGIN INVALID;
+
+<REJECTED>\n printf("REJECTED\n"); BEGIN INITIAL;
+<REJECTED>[^ab\n] BEGIN INVALID;
+
+<INVALID>\n printf("INVALID INPUT\n"); BEGIN INITIAL;
+<INVALID>[^\n] BEGIN INVALID; 
+%%
+
+int main()
+{
+	printf("Enter strings of 'a' and 'b': \n");
+	yylex();
+	return 0;
+}
