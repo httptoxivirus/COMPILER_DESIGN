@@ -18,3 +18,10 @@ gcc lex.yy.c -lfl
 %%
 
 //CODE SECTION (OPTIONAL)
+
+
+
+lex demo.l
+yacc -d demo.y
+gcc lex.yy.c y.tab.c
+./a.out
